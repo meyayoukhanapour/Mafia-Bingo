@@ -2,9 +2,21 @@
 <html>
 <head>
   <title>Mafia Bingo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; background: #f9f9f9; }
+    form { background: white; padding: 20px; max-width: 400px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, textarea { width: 100%; padding: 10px; margin-top: 10px; }
+    button { padding: 10px 20px; margin-top: 15px; background: black; color: white; border: none; border-radius: 5px; }
+  </style>
 </head>
 <body>
-  <h1>Welcome to Mafia Bingo!</h1>
-  <p>Submit your Discord info to participate in the event.</p>
+  <h1>Mafia Bingo Submission</h1>
+  <p>Submit your Discord info to participate in the event!</p>
+  <form action="https://formsubmit.co/YOUREMAILHERE" method="POST">
+    <input type="text" name="Discord Username" placeholder="e.g. Meya#1234" required>
+    <textarea name="Bingo Details" placeholder="What role did you play? What bingo squares did you complete?" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
 </body>
 </html>
