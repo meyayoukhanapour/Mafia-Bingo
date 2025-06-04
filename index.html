@@ -1,48 +1,275 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Mafia Bingo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      padding: 40px;
-      text-align: center;
-    }
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      padding: 10px 20px;
-      background: black;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mafia Bingo</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    margin: 20px;
+    color: #222;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: normal;
+    text-align: center;
+    color: #555;
+  }
+  #usernameForm, #bingoBoard {
+    max-width: 600px;
+    margin: 0 auto 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  label {
+    font-weight: bold;
+  }
+  input[type="text"] {
+    width: 100%;
+    font-size: 1.1em;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: #4caf50;
+    color: white;
+    font-size: 1.1em;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  #bingoBoard {
+    display: none;
+  }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+  }
+  .square {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .square.marked {
+    background-color: #81c784;
+    color: white;
+    font-weight: bold;
+  }
+  #resetMarks {
+    margin-top: 15px;
+    background: #f44336;
+  }
+  #resetMarks:hover {
+    background: #d32f2f;
+  }
+  footer {
+    text-align: center;
+    color: #777;
+    margin-top: 40px;
+    font-size: 0.9em;
+  }
+</style>
 </head>
 <body>
-  <h1>Mafia Bingo Submission</h1>
-  <p>Submit your Discord info to participate in the event!</p>
 
-  <form action="https://formsubmit.co/meyayoukhanapour77@icloud.com" method="POST">
-    <input type="text" name="Discord Username" placeholder="e.g. Meya#1234" required>
-    <textarea name="Bingo Info" placeholder="What bingo squares did you complete?" required></textarea>
-    <button type="submit">Submit</button>
+<h1>Mafia Bingo</h1>
+<h2>Get your unique 5x5 Mafia Bingo board!</h2>
+
+<div id="usernameForm">
+  <form id="form">
+    <label for="discordUsername">Enter your Discord username:</label>
+    <input type="text" id="discordUsername" placeholder="e.g. Player#1234" required />
+    <button type="submit">Get Bingo Board</button>
   </form>
+</div>
+
+<div id="bingoBoard">
+  <h3>Your Mafia Bingo Board</h3>
+  <div class="board" id="board"></div>
+  <button id="resetMarks">Reset My Marks</button>
+</div>
+
+<footer>
+  Contact: meya.youkhanapour@gmail.com
+</footer>
+
+<script>
+// FULL list of achievements from your list, cleaned up and without hashtags or asterisks
+const achievements = [
+  // Village Roles
+  "Find 3 BGT as the detective",
+  "Get a BGT on a framed player as the detective",
+  "Receive the attention span is too high message as the distractor",
+  "As the distractor, successfully action on a moving neutral",
+  "Heal three players as the doctor",
+  "As the doctor, save a neutral n1",
+  "As the duskweaver, gather everyone for a night when talking dead was supposed to happen",
+  "Skip night and help a mafia member get voted out as the duskweaver",
+  "Roll the white dice and save a player as the gambler",
+  "Successfully revive a villager with your red dice as the gambler",
+  "Take out a neutral as the guardian",
+  "As the guardian, take out 2 players",
+  "As the judge, prosecute 2 mafia members",
+  "Prosecute a jester as the judge",
+  "As the lawyer, acquit a villager from being hung",
+  "Expose a mafia by acquitting as the lawyer",
+  "Survive the whole game as the link",
+  "As the link, link a mafia and neutral together",
+  "As the manager, give a thieved player an extra usage",
+  "Manage 3 villagers as the manager",
+  "As the mayor, do not reveal the entire game and survive",
+  "As the mayor, reveal throughout the game and survive until the end",
+  "Check the body of a neutral death as the mortician",
+  "As the mortician, find 2 mafia players on ONE body",
+  "As the oracle, use your sense ability to see that there is 0 players with a role in the game",
+  "Successfully hide two players and prevent their death as the oracle",
+  "Get three same sides in a row as the pi",
+  "As the pi, compare a mafia player with another mafia player",
+  "As the spy, find the godfather night one",
+  "See the baker handing out bread as the spy",
+  "As the vigilante, accidentally shoot a villager due to the magician",
+  "Claim the submissor as the vigilante",
+  "As the watcher, see a player get 2+ visits",
+  "Watch someone visit yourself as the watcher",
+  // Mafia Roles
+  "As the blackmailer, successfully action on 4 different players",
+  "Blackmail a neutral player",
+  "As the framer, get a villager hung the same night you framed them",
+  "Frame the mafia alc before they get into the group chat",
+  "Kill an information role night one as the godfather",
+  "As the godfather, kill shaman’s doll without attacking the shaman",
+  "As the goose, action on the vigilante and make them shoot an innocent",
+  "Goose a protection role from saving a player",
+  "Receive the “role group not found” message as the hacker",
+  "As the hacker, find the baiter before any of your teammates die to them",
+  "As the harbinger, assassinate a protection role",
+  "Assassinate a neutral role as the harbinger",
+  "As the manipulator, use your action to save your teammate from being hung",
+  "Manipulate and get a village hung in the process",
+  "As the mimic, action on two players and successfully stop their action",
+  "Mimic a mafia member the night they are linked",
+  "Successfully raise the hoarder on a player as the necromancer",
+  "Raise the vigilante and shoot a villager as the necromancer",
+  "As the politician, reveal a horsemen",
+  "Reveal the link or pi as the politician",
+  "Successfully ritual two players",
+  "As the ritualist, use your ability to claim the submissor",
+  "Silence a neutral role",
+  "As the silencer, silence three village roles",
+  // Other Roles
+  "As the alchemist find a mafia member n1",
+  "When trying to lethal, receive the “player was nowhere to be found” message as the alchemist"
+];
+
+// Utility: shuffle array (Fisher-Yates)
+function shuffle(array) {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    // swap
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
+const form = document.getElementById("form");
+const usernameInput = document.getElementById("discordUsername");
+const boardDiv = document.getElementById("board");
+const bingoBoardDiv = document.getElementById("bingoBoard");
+const resetMarksBtn = document.getElementById("resetMarks");
+
+function getStorageKey(username) {
+  return `mafiaBingoMarks_${username}`;
+}
+
+function loadMarks(username) {
+  const saved = localStorage.getItem(getStorageKey(username));
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch {
+      return {};
+    }
+  }
+  return {};
+}
+
+function saveMarks(username, marks) {
+  localStorage.setItem(getStorageKey(username), JSON.stringify(marks));
+}
+
+function generateBoard(username) {
+  // Pick 25 random unique achievements for this user
+  const shuffled = shuffle([...achievements]);
+  const selected = shuffled.slice(0, 25);
+
+  boardDiv.innerHTML = "";
+  const marks = loadMarks(username);
+
+  selected.forEach((text, idx) => {
+    const sq = document.createElement("div");
+    sq.classList.add("square");
+    sq.textContent = text;
+    sq.dataset.idx = idx;
+    if (marks[idx]) {
+      sq.classList.add("marked");
+    }
+    sq.addEventListener("click", () => {
+      sq.classList.toggle("marked");
+      marks[idx] = sq.classList.contains("marked");
+      saveMarks(username, marks);
+    });
+    boardDiv.appendChild(sq);
+  });
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const username = usernameInput.value.trim();
+  if (!username) {
+    alert("Please enter your Discord username.");
+    return;
+  }
+  generateBoard(username);
+  bingoBoardDiv.style.display = "block";
+  // Scroll to board smoothly
+  bingoBoardDiv.scrollIntoView({behavior: "smooth"});
+});
+
+resetMarksBtn.addEventListener("click", () => {
+  const username = usernameInput.value.trim();
+  if (!username) return;
+  localStorage.removeItem(getStorageKey(username));
+  generateBoard(username);
+});
+
+</script>
+
 </body>
 </html>
