@@ -9,8 +9,8 @@
 
   body {
     margin: 0;
-    background: #1c1c1c;
-    color: #eee;
+    background: #f3fdf8;
+    color: #1a2d23;
     font-family: 'Montserrat', sans-serif;
     display: flex;
     flex-direction: column;
@@ -23,21 +23,21 @@
     margin-top: 0;
     font-weight: 700;
     font-size: 2.5rem;
-    color: #f54242;
-    text-shadow: 0 0 6px #f54242;
+    color: #3aa86f;
+    text-shadow: 0 0 6px #b5eac8;
   }
 
   p.subtitle {
     font-size: 1.1rem;
     margin: 0 0 1.5rem 0;
-    color: #aaa;
+    color: #4f6f5f;
   }
 
   form {
-    background: #2e2e2e;
+    background: #e6f7f0;
     padding: 1.2rem 1.5rem;
     border-radius: 10px;
-    box-shadow: 0 0 12px #f5424211;
+    box-shadow: 0 0 12px #c7e8d6;
     max-width: 360px;
     width: 100%;
     margin-bottom: 2rem;
@@ -47,14 +47,14 @@
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #f54242;
+    color: #3aa86f;
   }
 
   input[type="text"] {
     width: 100%;
     padding: 0.6rem 0.8rem;
     border-radius: 6px;
-    border: none;
+    border: 1px solid #c1e8d4;
     font-size: 1rem;
     box-sizing: border-box;
   }
@@ -62,7 +62,7 @@
   button {
     margin-top: 1rem;
     width: 100%;
-    background: #f54242;
+    background: #5fbf87;
     border: none;
     padding: 0.8rem 0;
     font-size: 1.1rem;
@@ -73,7 +73,7 @@
     transition: background 0.3s ease;
   }
   button:hover {
-    background: #d13030;
+    background: #3aa86f;
   }
 
   #board {
@@ -85,31 +85,31 @@
   }
 
   .square {
-    background: #333;
+    background: #d9f4e7;
     border-radius: 8px;
     padding: 10px;
     text-align: center;
     cursor: pointer;
-    color: #eee;
-    user-select: none;
+    color: #1a2d23;
     font-weight: 600;
     font-size: 0.85rem;
-    box-shadow: inset 0 0 5px #0008;
+    box-shadow: inset 0 0 5px #9ed7b6;
     transition: background 0.3s ease, color 0.3s ease;
     line-height: 1.2;
+    user-select: none;
   }
 
   .square.checked {
-    background: #f54242;
+    background: #3aa86f;
     color: #fff;
     text-decoration: line-through;
-    box-shadow: 0 0 10px #f54242aa;
+    box-shadow: 0 0 10px #b5eac8;
   }
 
   footer {
     margin-top: auto;
     font-size: 0.85rem;
-    color: #666;
+    color: #7d9c8f;
   }
 
   @media (max-width: 550px) {
@@ -140,9 +140,8 @@
 <footer>© Mafia Bingo 2025</footer>
 
 <script>
-  // Your achievements list as an array
   const achievements = [
-    // Village Roles (1-34)
+    // (same list, unchanged)
     "Find 3 BGT as the detective",
     "Get a BGT on a framed player as the detective",
     "Receive the attention span is too high message as the distractor",
@@ -177,7 +176,6 @@
     "Claim the submissor as the vigilante",
     "As the watcher, see a player get 2+ visits",
     "Watch someone visit yourself as the watcher",
-    // Mafia Roles (35-58)
     "As the blackmailer, successfully action on 4 different players",
     "Blackmail a neutral player",
     "As the framer, get a villager hung the same night you framed them",
@@ -202,26 +200,22 @@
     "As the ritualist, use your ability to claim the submissor",
     "Silence a neutral role",
     "As the silencer, silence three village roles",
-    // Other Roles (59-60+)
     "As the alchemist find a mafia member n1",
     "When trying to lethal, receive the “player was nowhere to be found” message as the alchemist"
   ];
 
   function hashStringToNumber(str) {
-    // Simple hash function to convert username string to a number
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       hash = (hash << 5) - hash + str.charCodeAt(i);
-      hash |= 0; // Convert to 32bit integer
+      hash |= 0;
     }
     return Math.abs(hash);
   }
 
   function shuffleArray(arr, seed) {
-    // Seeded shuffle using a simple pseudo-random generator
     let result = arr.slice();
     let random = mulberry32(seed);
-
     for (let i = result.length - 1; i > 0; i--) {
       let j = Math.floor(random() * (i + 1));
       [result[i], result[j]] = [result[j], result[i]];
@@ -229,7 +223,6 @@
     return result;
   }
 
-  // Mulberry32 PRNG for consistent shuffling
   function mulberry32(a) {
     return function() {
       var t = a += 0x6D2B79F5;
@@ -256,7 +249,7 @@
     boardDiv.innerHTML = '';
     const seed = hashStringToNumber(username);
     const shuffled = shuffleArray(achievements, seed);
-    const bingoSquares = shuffled.slice(0, 25); // pick 25 unique achievements
+    const bingoSquares = shuffled.slice(0, 25);
 
     bingoSquares.forEach((ach, index) => {
       const sq = document.createElement('div');
