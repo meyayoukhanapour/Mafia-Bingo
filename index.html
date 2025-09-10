@@ -1,297 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Mafia Bingo</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-  body {
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #f7c1d1, #e386a1, #b54a69);
-    background-size: 600% 600%;
-    animation: gradientShift 15s ease infinite;
-    color: #3b0b24;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-  }
-  @keyframes gradientShift {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-  }
-
-  h1 {
-    margin-top: 0;
-    font-weight: 700;
-    font-size: 3rem;
-    text-shadow: 0 2px 8px #7b1944;
-  }
-
-  p.subtitle {
-    font-size: 1.2rem;
-    margin: 0 0 1.8rem 0;
-    color: #601a3bdd;
-    text-shadow: 0 0 4px #e3a1bb;
-  }
-
-  form {
-    background: #fcd6e2cc;
-    padding: 1.5rem 2rem;
-    border-radius: 12px;
-    box-shadow: 0 0 20px #ac3d68cc;
-    max-width: 400px;
-    width: 100%;
-    margin-bottom: 2rem;
-  }
-
-  label {
-    display: block;
-    margin-bottom: 0.6rem;
-    font-weight: 700;
-    color: #6e1d40;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    border: 2px solid #bc3c63;
-    font-size: 1rem;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-  }
-  input[type="text"]:focus {
-    outline: none;
-    border-color: #e07da3;
-    background-color: #fff0f5;
-  }
-
-  button {
-    margin-top: 1.2rem;
-    width: 100%;
-    background: #bc3c63;
-    border: none;
-    padding: 0.9rem 0;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #fff;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px #7a2641cc;
-    transition: background 0.3s ease;
-  }
-  button:hover {
-    background: #e07da3;
-  }
-
-  #board {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    max-width: 640px;
-    width: 100%;
-  }
-
-  .square {
-    background: #f8d1db;
-    border-radius: 12px;
-    padding: 15px 10px;
-    text-align: center;
-    cursor: pointer;
-    color: #6e1d40;
-    font-weight: 700;
-    font-size: 0.9rem;
-    box-shadow: inset 0 0 8px #c28ca1;
-    user-select: none;
-    transition: background 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
-    line-height: 1.3;
-  }
-
-  .square.checked {
-    background: #6e1d40;
-    color: #fff;
-    text-decoration: line-through;
-    box-shadow: 0 0 15px #e07da3;
-  }
-
-  footer {
-    margin-top: auto;
-    font-size: 0.9rem;
-    color: #601a3bcc;
-    text-shadow: 0 0 3px #f3a6bf;
-  }
-
-  @media (max-width: 640px) {
-    #board { gap: 8px; }
-    .square { font-size: 0.75rem; padding: 12px 8px; }
-    h1 { font-size: 2.4rem; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mafia Bingo</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #f7c1d1, #e386a1, #b54a69);
+      background-size: 600% 600%;
+      animation: gradientShift 15s ease infinite;
+      color: #3b0b24;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+    @keyframes gradientShift {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    h1 {
+      font-weight: 700;
+      font-size: 3rem;
+      color: #3aa86f;
+      text-shadow: 0 2px 8px #7b1944;
+    }
+    p.subtitle {
+      font-size: 1.2rem;
+      margin: 0 0 1.8rem 0;
+      color: #601a3bdd;
+      text-shadow: 0 0 4px #e3a1bb;
+    }
+    form {
+      background: #fcd6e2cc;
+      padding: 1.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #ac3d68cc;
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.6rem;
+      font-weight: 700;
+      color: #6e1d40;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 2px solid #bc3c63;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #e07da3;
+      background-color: #fff0f5;
+    }
+    button {
+      margin-top: 1.2rem;
+      width: 100%;
+      background: #bc3c63;
+      border: none;
+      padding: 0.9rem 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px #7a2641cc;
+    }
+    button:hover {
+      background: #e07da3;
+    }
+    #board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 720px;
+      width: 100%;
+    }
+    .square {
+      background: #f8d1db;
+      border-radius: 12px;
+      padding: 15px 10px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: inset 0 0 8px #c28ca1;
+      user-select: none;
+      transition: background 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
+      color: #6e1d40;
+      line-height: 1.3;
+    }
+    .square.checked {
+      background: #6e1d40;
+      color: #fff;
+      text-decoration: line-through;
+      box-shadow: 0 0 15px #e07da3;
+    }
+    footer {
+      margin-top: auto;
+      font-size: 0.9rem;
+      color: #601a3bcc;
+      text-shadow: 0 0 3px #f3a6bf;
+    }
+    @media (max-width: 640px) {
+      #board { gap: 8px; }
+      .square { font-size: 0.75rem; padding: 12px 8px; }
+      h1 { font-size: 2.4rem; }
+    }
+  </style>
 </head>
 <body>
+  <h1>Mafia Bingo</h1>
+  <p class="subtitle">Enter your Discord username to generate your unique 4x4 bingo board!</p>
+  <form id="usernameForm">
+    <label for="username">Discord Username</label>
+    <input type="text" id="username" placeholder="e.g. Player#1234" required autocomplete="off" />
+    <button type="submit">Get Bingo Board</button>
+  </form>
+  <div id="board" role="grid"></div>
+  <footer>© Mafia Bingo 2025</footer>
 
-<h1>Mafia Bingo</h1>
-<p class="subtitle">Enter your Discord username to generate your unique 4x4 board!</p>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-<form id="usernameForm">
-  <label for="username">Discord Username</label>
-  <input type="text" id="username" placeholder="e.g. Player#1234" required autocomplete="off" />
-  <button type="submit">Get Bingo Board</button>
-</form>
-
-<div id="board" aria-label="Bingo Board" role="grid"></div>
-
-<footer>© Mafia Bingo 2025</footer>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyDqG9TxIC8ReiA6elhcJHfx3gW_nO6_4YY",
-    authDomain: "mafia-bingo.firebaseapp.com",
-    projectId: "mafia-bingo",
-    storageBucket: "mafia-bingo.firebasestorage.app",
-    messagingSenderId: "936739182401",
-    appId: "1:936739182401:web:393b8558b1bf39eed5b3c0",
-    measurementId: "G-40E065S518"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // Roles list
-  const roles = [
-    "detective","distractor","doctor","duskweaver","gambler","guardian","judge","lawyer",
-    "link","manager","mayor","mortician","oracle","PI","spy","watcher","vigilante","blackmailer",
-    "hacker","harbinger","framer","godfather","goose","manipulator","mimic","necromancer",
-    "politician","ritualist","silencer","baker","baiter","bomber","cupid","doomsayer","executioner",
-    "hoarder","isekai","magician","jester","plague doctor","santa","shaman","starspawn",
-    "submissioner","thief","alchemist"
-  ];
-
-  // Hash username -> seed
-  function hashStringToNumber(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return Math.abs(hash);
-  }
-
-  // Seeded RNG
-  function mulberry32(seed) {
-    return function() {
-      let t = seed += 0x6D2B79F5;
-      t = Math.imul(t ^ (t >>> 15), t | 1);
-      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    // Firebase (optional, localStorage works even without this configured)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
-  }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  // Shuffle array with seed
-  function shuffleArray(array, seed) {
-    let arr = array.slice();
-    let random = mulberry32(seed);
-    for (let i = arr.length -1; i > 0; i--) {
-      let j = Math.floor(random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+    // Role list
+    const roles = [
+      "detective","distractor","doctor","duskweaver","gambler","guardian","judge","lawyer","link",
+      "manager","mayor","mortician","oracle","PI","spy","watcher","vigilante","blackmailer","hacker",
+      "harbinger","framer","godfather","goose","manipulator","mimic","necromancer","politician","ritualist",
+      "silencer","baker","baiter","bomber","cupid","doomsayer","executioner","hoarder","isekai","magician",
+      "jester","plague doctor","santa","shaman","starspawn","submissioner","thief","alchemist"
+    ];
+
+    // Helpers
+    function hashStringToNumber(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      return Math.abs(hash);
     }
-    return arr;
-  }
+    function mulberry32(seed) {
+      return function() {
+        let t = seed += 0x6D2B79F5;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      }
+    }
+    function shuffleArray(array, seed) {
+      let arr = array.slice();
+      let random = mulberry32(seed);
+      for (let i = arr.length -1; i > 0; i--) {
+        let j = Math.floor(random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
 
-  const form = document.getElementById('usernameForm');
-  const boardDiv = document.getElementById('board');
-  const inputUsername = document.getElementById('username');
+    // DOM
+    const form = document.getElementById('usernameForm');
+    const boardDiv = document.getElementById('board');
+    const inputUsername = document.getElementById('username');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = inputUsername.value.trim();
-    if (!username) return alert("Please enter your Discord username.");
-    await generateBoard(username);
-  });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = inputUsername.value.trim();
+      if (!username) return;
+      await generateBoard(username);
+    });
 
-  async function generateBoard(username) {
-    boardDiv.innerHTML = '';
-    const seed = hashStringToNumber(username);
-    const shuffled = shuffleArray(roles, seed);
-    const boardSquares = shuffled.slice(0, 16);
+    async function generateBoard(username) {
+      boardDiv.innerHTML = '';
+      const seed = hashStringToNumber(username);
+      const shuffled = shuffleArray(roles, seed);
+      const bingoSquares = shuffled.slice(0, 16);
 
-    boardSquares.forEach((role, index) => {
-      const sq = document.createElement('div');
-      sq.className = 'square';
-      sq.textContent = role;
-      sq.dataset.index = index;
-      sq.setAttribute('role', 'gridcell');
-      sq.tabIndex = 0;
+      const savedChecks = await loadCheckedSquares(username);
 
-      sq.addEventListener('click', () => {
-        sq.classList.toggle('checked');
-        saveCheckedSquares(username);
-      });
-
-      sq.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
+      bingoSquares.forEach(role => {
+        const sq = document.createElement('div');
+        sq.className = 'square';
+        sq.textContent = role;
+        if (savedChecks.includes(role)) {
+          sq.classList.add('checked');
+        }
+        sq.addEventListener('click', () => {
           sq.classList.toggle('checked');
           saveCheckedSquares(username);
-        }
+        });
+        boardDiv.appendChild(sq);
       });
-
-      boardDiv.appendChild(sq);
-    });
-
-    await loadCheckedSquares(username);
-  }
-
-  async function saveCheckedSquares(username) {
-    const checkedIndices = [];
-    boardDiv.querySelectorAll('.square.checked').forEach(sq => {
-      checkedIndices.push(Number(sq.dataset.index));
-    });
-
-    // Save locally
-    localStorage.setItem(`mafiaBingoChecked_${username}`, JSON.stringify(checkedIndices));
-
-    // Save to Firestore
-    try {
-      const docRef = doc(db, "checkedSquares", username);
-      await setDoc(docRef, { checked: checkedIndices });
-    } catch (error) {
-      console.error("Error saving to Firestore:", error);
     }
-  }
 
-  async function loadCheckedSquares(username) {
-    let checkedIndices = [];
-    try {
-      const docRef = doc(db, "checkedSquares", username);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        checkedIndices = docSnap.data().checked || [];
-      } else {
+    async function saveCheckedSquares(username) {
+      const checkedRoles = [];
+      boardDiv.querySelectorAll('.square.checked').forEach(sq => {
+        checkedRoles.push(sq.textContent);
+      });
+      localStorage.setItem(`mafiaBingoChecked_${username}`, JSON.stringify(checkedRoles));
+      try {
+        const docRef = doc(db, "checkedSquares", username);
+        await setDoc(docRef, { checked: checkedRoles });
+      } catch (error) {
+        console.log("Firestore not configured, skipping");
+      }
+    }
+
+    async function loadCheckedSquares(username) {
+      let checkedRoles = [];
+      try {
+        const docRef = doc(db, "checkedSquares", username);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          checkedRoles = docSnap.data().checked || [];
+        } else {
+          const saved = localStorage.getItem(`mafiaBingoChecked_${username}`);
+          if (saved) checkedRoles = JSON.parse(saved);
+        }
+      } catch {
         const saved = localStorage.getItem(`mafiaBingoChecked_${username}`);
-        if (saved) checkedIndices = JSON.parse(saved);
+        if (saved) checkedRoles = JSON.parse(saved);
       }
-    } catch (error) {
-      console.error("Error loading from Firestore:", error);
-      const saved = localStorage.getItem(`mafiaBingoChecked_${username}`);
-      if (saved) checkedIndices = JSON.parse(saved);
+      return checkedRoles;
     }
-
-    boardDiv.querySelectorAll('.square').forEach(sq => {
-      if (checkedIndices.includes(Number(sq.dataset.index))) {
-        sq.classList.add('checked');
-      }
-    });
-  }
-</script>
+  </script>
 </body>
 </html>
